@@ -3,15 +3,31 @@ import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
-// import { allcategories, createCategory } from "../../api/api";
+import axios from "axios";
+import { AppCOnfig } from "../../../../../config";
+
+export async function getCategories() {
+	try {
+		const base_url = AppCOnfig.BASE_URL
+		const response = await axios.get(`http://localhost:3000/api/v1/category/`)
+		console.log(base_url)
+		return await response.json()
+		
+	} catch (error) {
+		return error
+	}
+
+}
 
 function page() {
 	const [openAddModal, setOpenAddModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [openEditModal, setOpenEditModal] = useState(false);
-	const [data, setData] = useState([])
+	// const [data, setData] = useState([])
 	const [id, setID] = useState('')
 	const [name, setName] = useState('')
+	const base = AppCOnfig.BASE_URL
+	console.log(base)
 
     useEffect(() => {
         if (openAddModal || openDeleteModal || openEditModal) {
@@ -21,17 +37,15 @@ function page() {
             document.body.style.background = "#f0f0f0";
         }
 
-    }, [])
+    }, [openAddModal, openDeleteModal, openEditModal])
 
-	useEffect(()=> {
-		// allcategories().then((resp) => setData(resp.data))
-	}, [])
+	getCategories().then((resp) => console.log(resp))
+
 	
 	function createNewCategory() {
 		const obj = {
 			name
 		}
-		// createCategory(obj).then((resp) => console.log(resp))
 		
 	}
 
@@ -58,7 +72,7 @@ function page() {
 							<th>Əməliyyatlar</th>
 						</tr>
 					</thead>
-					<tbody>
+					{/* <tbody>
 							{
 								data && data.map((item, i) => {
 									return(
@@ -85,7 +99,7 @@ function page() {
 						</tr>)
 								})
 							}
-					</tbody>
+					</tbody> */}
 				</table>
 			</div>
 			{openAddModal ? (

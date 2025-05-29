@@ -24,8 +24,8 @@ function AdminHeader() {
             <ul>
                 <li><Link href={'/admin'}>Ana səhifə <AiOutlineHome /></Link></li>
                 <li><Link href={'/admin/mehsul'}>Məhsul <SlBasket /></Link></li>
-                <li><Link href={'/admin/kateqoriyalar'}>Kateqoriya <MdOutlineCategory /></Link></li>
-                <li><Link href={'/admin/altkateqoriyalar'}>Alt kateqoriya <BiCategory /></Link></li>
+                <li><Link href={'/admin/kateqoriya'}>Kateqoriya <MdOutlineCategory /></Link></li>
+                <li><Link href={'/admin/altkateqoriya'}>Alt kateqoriya <BiCategory /></Link></li>
                 <li><Link href={'/admin/elave-melumatlar'}>Əlavə məlumatlar <IoInformationCircleOutline /></Link></li>
             </ul>
         </div>

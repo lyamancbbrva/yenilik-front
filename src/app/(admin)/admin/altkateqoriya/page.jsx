@@ -4,7 +4,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
 
-function page() {
+function Page() {
 	const [openAddModal, setOpenAddModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [openEditModal, setOpenEditModal] = useState(false);
@@ -14,7 +14,7 @@ function page() {
         } else {
             document.body.style.background = "#f0f0f0";
         }
-    }, [])
+    }, [openAddModal, openDeleteModal, openEditModal])
 
 	return (
 		<main className="admin-pages">
@@ -109,4 +109,4 @@ function page() {
 	);
 }
 
-export default page;
+export default Page;
