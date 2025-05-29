@@ -4,13 +4,13 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
 import axios from "axios";
-import { AppCOnfig } from "../../../../../config";
+import { AppCOnfig } from "../../../../../config"; 
 
 export async function getCategories() {
 	try {
 		const base_url = AppCOnfig.BASE_URL
 		const response = await axios.get(`http://localhost:3000/api/v1/category/`)
-		console.log(base_url)
+
 		return await response.json()
 		
 	} catch (error) {
