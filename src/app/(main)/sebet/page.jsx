@@ -106,7 +106,7 @@ function Page() {
 						</tr>
 						<tr>
 							<td>
-								<img src={logo} alt="Product image" />
+								<Image width={200} height={100} src='/imgs/logo.png' alt="Product image" />
 								<h5>salam men almayam</h5>
 							</td>
 							<td className="desktop-col">Product Name</td>
