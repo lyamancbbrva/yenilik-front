@@ -1,33 +1,38 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { Panel, PanelGroup } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import { toggleSidebar } from "./Header";
+import { allcategories } from "@/app/api/api";
 
 function Sidebar({  }) {
 	const [activeKey, setActiveKey] = useState(null);
+	const [data, setData] = useState([])
+
+	useEffect(() => {
+		allcategories().then(resp => setData(resp.data))
+
+	}, [])
 
 	return (
 		<div id="sidebar">
 			<IoCloseOutline onClick={() => toggleSidebar()} />
 			<div className="accordion">
-				<PanelGroup
+				{
+					data && data.map((item ,i) =><PanelGroup
+					key={i}
 					accordion
 					activeKey={activeKey}
 					onSelect={setActiveKey}
 				>
-					<Panel header="Salam" eventKey="1">
-						<Link href="/salam">salam</Link>
+					<Panel header={item.name} eventKey={i}>
+						<Link href="/salam">{item.subcategories.length > 0 ? item.subcategories.map(subcat => subcat.name) : ''}</Link>
 					</Panel>
-					<Panel header="Salam 2" eventKey="2">
-						<div>salam</div>
-					</Panel>
-					<Panel header="Necəsən?" eventKey="3">
-						<div>nexesen</div>
-					</Panel>
-				</PanelGroup>
+				</PanelGroup> )
+				}
+				
 			</div>
 		</div>
 	);

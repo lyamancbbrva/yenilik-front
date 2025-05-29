@@ -1,17 +1,20 @@
-'use client'
+"use client";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import React, { useState } from "react";
-import Image from "next/image";
+import Logo from "@/app/components/client/Logo";
+import { register } from "@/app/api/api";
+import { config } from "dotenv";
+import configObj from "@/config/config";
 
 function RegisterPage() {
 	const [passType, setPassType] = useState("password");
 	const [confirmPassType, setConfirmPassType] = useState("password");
-	const [data, setData] = useState({});
-	// const navigate = useNavigate();
+	const [data, setData] = useState();
+	const [obj, setObj] = useState();
 
 	const validatePhone = (value) => {
 		const phoneRegex =
@@ -25,31 +28,38 @@ function RegisterPage() {
 
 	async function createNewuser() {
 		if (
-			!data.email ||
-			!data.phone_number ||
-			!data.password ||
-			!data.confirm_password
+			!obj.email ||
+			!obj.phone_number ||
+			!obj.password ||
+			!obj.confirm_password
 		) {
 			return toast.error("Bütün sahələri doldurun!");
 		}
-		if (data.password !== data.confirm_password) {
+		if (obj.password !== obj.confirm_password) {
 			console.log("salam");
 			return toast.error("Şifrələr uyğun deyil!");
 		}
-		if (!validatePhone(data.phone_number)) {
+		if (!validatePhone(obj.phone_number)) {
 			toast.error("Nömrə düzgün formatda deyil.");
 		}
-		if (!validateEmail(data.email)) {
+		if (!validateEmail(obj.email)) {
 			toast.error("Email düzgün formatda deyil.");
 		}
-		const resp = await fetch('http://localhost:3000/api/v1/auth/register', {
-			method: 'POST'
-		})
+		try {
+			 register(obj).then(resp => setData(resp))
+			if (resp.status == 201) {
+				toast.success('Qeydiyyat uğurla tamamlandı')
+				window.location.href = '/'
+			}
+		} catch (error) {
+			toast.error('Xəta baş verdi')
+			return error;
+		}
 	}
 	return (
 		<>
 			<ToastContainer
-				position="hrefp-center"
+				position="top-center"
 				neweshrefnhrefp={false}
 				auhrefClose={2000}
 				closeOnClick
@@ -60,9 +70,7 @@ function RegisterPage() {
 			<main>
 				<div className="login-register">
 					<div id="logo">
-						<Link href={"/"}>
-							<Image width={130} height={80} src='/imgs/logo.png' alt="Yenilik logo" />
-						</Link>
+						<Logo />
 					</div>
 					<h1>Xoş gəlmisiniz!</h1>
 					<form onSubmit={(e) => e.preventDefault()}>
@@ -71,7 +79,7 @@ function RegisterPage() {
 							<input
 								type="text"
 								onInput={(e) => {
-									setData((prev) => ({
+									setObj((prev) => ({
 										...prev,
 										email: e.target.value,
 									}));
@@ -83,7 +91,7 @@ function RegisterPage() {
 							<span>Telefon</span>
 							<input
 								onInput={(e) => {
-									setData((prev) => ({
+									setObj((prev) => ({
 										...prev,
 										phone_number: e.target.value,
 									}));
@@ -98,7 +106,7 @@ function RegisterPage() {
 							<input
 								type={passType}
 								onInput={(e) => {
-									setData((prev) => ({
+									setObj((prev) => ({
 										...prev,
 										password: e.target.value,
 									}));
@@ -123,7 +131,7 @@ function RegisterPage() {
 								type={confirmPassType}
 								placeholder="Şifrə"
 								onInput={(e) => {
-									setData((prev) => ({
+									setObj((prev) => ({
 										...prev,
 										confirm_password: e.target.value,
 									}));
@@ -148,9 +156,9 @@ function RegisterPage() {
 								Şifrəmi unutmuşam 👉👈
 							</Link>
 						</div>
-						<buthrefn onClick={() => createNewuser()}>
+						<button onClick={() => createNewuser()}>
 							Qeydiyyatdan keç
-						</buthrefn>
+						</button>
 					</form>
 					<p>
 						Artıq hesabın var? <Link href="/giris">Giriş et</Link>

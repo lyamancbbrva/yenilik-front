@@ -3,19 +3,25 @@ import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
+import { getCategories } from "@/app/components/client/Header";
+import axios from "axios";
 
 function Page() {
 	const [openAddModal, setOpenAddModal] = useState(false);
 	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const [openEditModal, setOpenEditModal] = useState(false);
+	const [data, setData] = useState([])
     useEffect(() => {
         if (openAddModal || openDeleteModal || openEditModal) {
             document.body.style.background = "rgba(0, 0, 0, 0.16)";
         } else {
             document.body.style.background = "#f0f0f0";
         }
+		axios.get('http://localhost:3000/api/v1/category').then((resp) => setData(resp.data.data))
     }, [openAddModal, openDeleteModal, openEditModal])
 
+
+		console.log(data)
 	return (
 		<main className="admin-pages">
 			<h1>Alt kateqoriya</h1>
@@ -28,24 +34,23 @@ function Page() {
 					<thead>
 						<tr>
 							<th>Alt kateqoriya adı</th>
+							<th>Kateqoriya adı</th>
 							<th>Əməliyyatlar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Alt kateqoriya adı</td>
+						{
+							data && data.map((item, i) =>
+							<tr key={i}>
+							<td>{item.subcategories.length > 0 ? item.subcategories.map(subcat => subcat.name) : "Alt kateqoriya yoxdur"}</td>
+							<td>{item.name}</td>
 							<td>
 								<FiEdit className="edit" onClick={() => setOpenEditModal(true)} />
 								<RiDeleteBin5Line className="trash" onClick={() => setOpenDeleteModal(true)} />
 							</td>
-						</tr>
-						<tr>
-							<td>Alt kateqoriya adı</td>
-							<td>
-								<FiEdit className="edit" onClick={() => setOpenEditModal(true)} />
-								<RiDeleteBin5Line className="trash" onClick={() => setOpenDeleteModal(true)}/>
-							</td>
-						</tr>
+						</tr> )
+						}
+						
 					</tbody>
 				</table>
 			</div>
@@ -58,6 +63,11 @@ function Page() {
 						<FaXmark />
 					</div>
 					<h3>Alt kateqoriya əlavə edilsin?</h3>
+					<select>
+						{
+							data && data.map((item, i) => <option>{item.name}</option>)
+						}
+					</select>
 					<div className="buttons">
 						<button className="no">Xeyr</button>
 						<button className="yes">Bəli</button>

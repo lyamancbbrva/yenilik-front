@@ -1,9 +1,8 @@
-
-import Image from 'next/image'
 import { CiUser, CiShoppingBasket, CiSearch } from "react-icons/ci";
 import Sidebar from "./Sidebar";
 import Link from 'next/link';
 import BarIcon from './BarIcon';
+import Logo from './Logo';
 
 export const toggleSidebar = () => {
   console.log('salam')
@@ -17,17 +16,25 @@ export const toggleSidebar = () => {
       if (main) main.style.display = 'none';
     }
   };
+  export async function getCategories(){
+    try {
+      const resp = await fetch('http://localhost:3000/api/v1/category')
+      return resp.json()
+      
+    } catch (error) {
+      return error;
+    }
+  }
 
  async function Header() {
 
+  const {data} = await getCategories()
    
    return (
     <header>
       <nav className="container">
         <div className="navbar">
-          <Link id="logo" href={"/"}>
-            <Image  width={80}  height={50} priority  src="/imgs/logo.png" alt="Yenilik logo" />
-          </Link>
+          <Logo/>
           <div id="header-icons">
             <Link href={"/giris"}>
               <CiUser />
@@ -49,7 +56,7 @@ export const toggleSidebar = () => {
       </nav>
       <div className="categories">
         <div className="container">
-					{/* <ul className="main-ul">
+					<ul className="main-ul">
 						{data &&
 							data.map((item, i) => (
 								<li key={i}>
@@ -66,7 +73,7 @@ export const toggleSidebar = () => {
 									</ul>
 								</li>
 							))}
-					</ul> */}
+					</ul>
         </div>
       </div>
       <div id="sidebar" style={{ display: 'none' }}>

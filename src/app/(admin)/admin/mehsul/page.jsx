@@ -3,20 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6"
+import axios from 'axios';
+
+async function getProducts(params) {
+	try {
+		const resp = await axios.get("http://localhost:3000/api/v1/product/")
+		return resp;
+	} catch (error) {
+		return error;
+	}
+}
 
 function page() {
 		const [openAddModal, setOpenAddModal] = useState(false);
 		const [openDeleteModal, setOpenDeleteModal] = useState(false);
 		const [openEditModal, setOpenEditModal] = useState(false);
+		const [data, setData] = useState([])
 
         useEffect(() => {
-
             if (openAddModal || openDeleteModal || openEditModal) {
                 document.body.style.background = "rgba(0, 0, 0, 0.16)";
             } else {
                 document.body.style.background = "#f0f0f0";
             }
+			getProducts().then(resp => setData(resp.data.data))
         }, [])
+		console.log(data)
 	
 
   return (
@@ -36,24 +48,17 @@ function page() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><img src="https://bazarstore.az/cdn/shop/products/30015508.jpg?v=1693387425" alt="" /><h6>Məhsul adı </h6></td>
-							<td>16 ₼</td>
-							<td>12 ₼</td>
+						{
+							data && data.map((item, i) =><tr key={i}>
+							<td><img src={`http://localhost:3000/${item.img_url}`} alt={item.name} /><h6>{item.name}</h6></td>
+							<td>{item.price} ₼</td>
+							<td>{item.discounted_price} ₼</td>
 							<td>
 								<FiEdit className="edit" onClick={() => setOpenEditModal(true)}/>
 								<RiDeleteBin5Line className="trash" onClick={() => setOpenDeleteModal(true)}/>
 							</td>
-						</tr>
-						<tr>
-                        <td><img src="https://bazarstore.az/cdn/shop/products/30015508.jpg?v=1693387425" alt="" /><h6>Məhsul adı </h6></td>
-							<td>16 ₼</td>
-							<td>12 ₼</td>
-							<td>
-								<FiEdit className="edit" onClick={() => setOpenEditModal(true)}/>
-								<RiDeleteBin5Line className="trash" onClick={() => setOpenDeleteModal(true)} />
-							</td>
-						</tr>
+						</tr> )
+						}
 					</tbody>
 				</table>
 			</div>

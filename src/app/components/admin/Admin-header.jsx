@@ -6,13 +6,14 @@ import { IoLogOutOutline  } from "react-icons/io5";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import Link from "next/link";
 import Image from "next/image";
+import Logo from "../client/Logo";
 
 function AdminHeader() {
   return (
         <>
     <header id='admin-header'>
         <div id="logo-block">
-            <Link href="/"><Image width={80} height={50} src='/imgs/logo.png' alt="Logo" /></Link>
+            <Logo/>
         </div>
         <Link href={'/admin/profil'} id="profile">
             <Image height={30} width={30} src='/imgs/user.png' alt="user" />
