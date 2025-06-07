@@ -7,13 +7,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Logo from "@/app/components/client/Logo";
 import { register } from "@/app/api/api";
-import { config } from "dotenv";
-import configObj from "@/config/config";
 
 function RegisterPage() {
 	const [passType, setPassType] = useState("password");
 	const [confirmPassType, setConfirmPassType] = useState("password");
-	const [data, setData] = useState();
 	const [obj, setObj] = useState();
 
 	const validatePhone = (value) => {
@@ -27,6 +24,7 @@ function RegisterPage() {
 	};
 
 	async function createNewuser() {
+
 		if (
 			!obj.email ||
 			!obj.phone_number ||
@@ -45,14 +43,21 @@ function RegisterPage() {
 		if (!validateEmail(obj.email)) {
 			toast.error("Email düzgün formatda deyil.");
 		}
+		if (obj.password.length < 6) {
+			return toast.error("Şifrə ən az 6 simvol olmalıdır!");
+		}
 		try {
-			 register(obj).then(resp => setData(resp))
-			if (resp.status == 201) {
-				toast.success('Qeydiyyat uğurla tamamlandı')
-				window.location.href = '/'
+			const resp = await register(obj);
+			if (resp.status === 201) {
+				toast.success("Qeydiyyat uğurla tamamlandı");
+				// window.location.href = "/";
 			}
+			if (resp.status === 409) {
+				toast.error("İstifadəçi artıq mövcuddur.");
+				return;
+			} 
 		} catch (error) {
-			toast.error('Xəta baş verdi')
+			toast.error("Xəta baş verdi");
 			return error;
 		}
 	}

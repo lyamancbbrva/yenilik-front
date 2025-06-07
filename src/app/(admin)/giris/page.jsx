@@ -26,25 +26,25 @@ function Page() {
 			return toast.error("Bütün sahələri doldurun!");
 		}
 		if (!validateEmail(data.email)) {
-			toast.error("Email düzgün formatda deyil.");
+			return toast.error("Email düzgün formatda deyil.");
+		}
+		if (data.password.length < 6) {
+			return toast.error("Şifrə ən az 6 simvol olmalıdır!")
 		}
 
 		try {
-			console.log('salam')
 			login(data).then((resp) => setResponse(resp))
-
-			if (response?.message == 'OK') {
+			if (response?.response?.status == 401) {
+				return toast.error('E-mail və ya şifrə yanlışdır')
+			}
+			if (response) {
 				 cook.set("token", response.token);
+				 cook.set("refreshToken", response.refresh_token);
 				toast.success("Giriş olundu");
 				// window.location.href = "/";
 			}
-			else{
-				toast.error('Email və ya şifrə yanlışdır')
-			}
-			console.log(response)
 		} catch (error) {
-			console.log(error)
-			return error;
+			return toast.error(error);
 		}
 	}
 
@@ -75,7 +75,7 @@ function Page() {
 										email: e.target.value,
 									}))
 								}
-								type="email"
+								type="text"
 								placeholder="E-mail"
 							/>
 						</div>
@@ -90,7 +90,7 @@ function Page() {
 								}
 								type={passType}
 								placeholder="Şifrə"
-								required
+								
 							/>
 							{passType == "text" ? (
 								<IoEyeOutline

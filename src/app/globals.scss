@@ -89,7 +89,17 @@ body {
 .discounted-products .swiper-pagination{
 	margin-bottom: -10px !important;
 }
+.not-found {
+	text-align: center;
+	padding: 20px;
+	div h3{
+		font-size: 27px;
+	}
+}
 .loader {
+
+margin: auto;
+margin-top: 30px;
   width: 40px;
   aspect-ratio: 1;
   border:2px solid;

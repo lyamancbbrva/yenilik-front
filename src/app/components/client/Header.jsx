@@ -3,9 +3,11 @@ import Sidebar from "./Sidebar";
 import Link from 'next/link';
 import BarIcon from './BarIcon';
 import Logo from './Logo';
+import axios from "axios";
+import { allcategories } from "@/app/api/api";
+import notFound from "@/app/(main)/not-found";
 
 export const toggleSidebar = () => {
-  console.log('salam')
     const sidebar = document.getElementById('sidebar');
     const main = document.querySelector('main');
     if (sidebar.style.display === 'block') {
@@ -16,19 +18,14 @@ export const toggleSidebar = () => {
       if (main) main.style.display = 'none';
     }
   };
-  export async function getCategories(){
-    try {
-      const resp = await fetch('http://localhost:3000/api/v1/category')
-      return resp.json()
-      
-    } catch (error) {
-      return error;
-    }
-  }
 
  async function Header() {
 
-  const {data} = await getCategories()
+   const {data} = undefined || await allcategories()
+  
+   if(!data || data.length === 0) {
+    return notFound("Kateqoriya")
+   }
    
    return (
     <header>
@@ -72,7 +69,8 @@ export const toggleSidebar = () => {
 											)}
 									</ul>
 								</li>
-							))}
+							))
+            }
 					</ul>
         </div>
       </div>

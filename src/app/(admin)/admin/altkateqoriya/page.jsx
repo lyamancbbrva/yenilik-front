@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
-import { getCategories } from "@/app/components/client/Header";
-import axios from "axios";
+import { allcategories, allSubcats } from "@/app/api/api";
 
 function Page() {
 	const [openAddModal, setOpenAddModal] = useState(false);
@@ -17,7 +16,7 @@ function Page() {
         } else {
             document.body.style.background = "#f0f0f0";
         }
-		axios.get('http://localhost:3000/api/v1/category').then((resp) => setData(resp.data.data))
+		allcategories().then((resp) => setData(resp.data.data))
     }, [openAddModal, openDeleteModal, openEditModal])
 
 
@@ -33,8 +32,8 @@ function Page() {
 				<table>
 					<thead>
 						<tr>
-							<th>Alt kateqoriya adı</th>
 							<th>Kateqoriya adı</th>
+							<th>Alt kateqoriya adı</th>
 							<th>Əməliyyatlar</th>
 						</tr>
 					</thead>
@@ -42,8 +41,8 @@ function Page() {
 						{
 							data && data.map((item, i) =>
 							<tr key={i}>
-							<td>{item.subcategories.length > 0 ? item.subcategories.map(subcat => subcat.name) : "Alt kateqoriya yoxdur"}</td>
 							<td>{item.name}</td>
+							<td>{item.subcategories.length > 0 ? item.subcategories.map(subcat => subcat.name) : "Alt kateqoriya yoxdur"}</td>
 							<td>
 								<FiEdit className="edit" onClick={() => setOpenEditModal(true)} />
 								<RiDeleteBin5Line className="trash" onClick={() => setOpenDeleteModal(true)} />
