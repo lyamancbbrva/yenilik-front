@@ -69,7 +69,7 @@ async function verifyToken() {
 async function createSubcat(obj) {
         try {
         const res = await axiosInstance.post('/subcategory', obj)
-        return res
+        return res;
         
     } catch (error) {
         return error

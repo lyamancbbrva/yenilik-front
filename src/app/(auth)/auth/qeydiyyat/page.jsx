@@ -157,7 +157,7 @@ function RegisterPage() {
 							)}
 						</div>
 						<div className="forget-pass">
-							<Link href="/sifremi-unutdum">
+							<Link href="/auth/sifremi-yenile">
 								Şifrəmi unutmuşam 👉👈
 							</Link>
 						</div>
@@ -166,7 +166,7 @@ function RegisterPage() {
 						</button>
 					</form>
 					<p>
-						Artıq hesabın var? <Link href="/giris">Giriş et</Link>
+						Artıq hesabın var? <Link href="/auth/giris">Giriş et</Link>
 					</p>
 				</div>
 			</main>

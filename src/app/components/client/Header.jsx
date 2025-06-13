@@ -33,7 +33,7 @@ export const toggleSidebar = () => {
         <div className="navbar">
           <Logo/>
           <div id="header-icons">
-            <Link href={"/giris"}>
+            <Link href={"/auth/giris"}>
               <CiUser />
             </Link>
             <Link href={"/sebet"}>

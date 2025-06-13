@@ -105,7 +105,7 @@ function Page() {
 							)}
 						</div>
 						<div className="forget-pass">
-							<Link href="/sifremi-unutdum">
+							<Link href="/auth/sifremi-yenile">
 								Şifrəmi unutmuşam 👉👈
 							</Link>
 						</div>
@@ -114,8 +114,8 @@ function Page() {
 						</button>
 					</form>
 					<p>
-						Hesabınız yoxdur?{" "}
-						<Link href="/qeydiyyat">Qeydiyyatdan keç</Link>
+						Hesabınız yoxdur?
+						<Link href="/auth/qeydiyyat">Qeydiyyatdan keç</Link>
 					</p>
 				</div>
 			</main>
