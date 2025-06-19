@@ -1,20 +1,23 @@
-"use client";
+
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
+import { Cookies } from "react-cookie";
 import { IoTrashOutline } from "react-icons/io5";
 
 function Page() {
-	const [productAmount, setProductAmount] = useState(1);
-	const productList = ["skdj"];
+	const cook = new Cookies();
+	const productList = cook.get("basket");
+	console.log(productList);
+	
 
 	function changeAmount(arg) {
-		setProductAmount(productAmount + arg);
+		
 	}
 
 	return (
 		<main className="basket">
 			<h1>Səbət</h1>
-			{productList.length == 0 ? (
+			{/* {productList.length == 0 ? (
 				<div className="empty-basket">
 					<h3>Səbətdə məhsul yoxdur</h3>
 					<Image
@@ -70,40 +73,7 @@ function Page() {
 							</td>
 							<td>15.90 AZN</td>
 						</tr>
-						<tr>
-							<td>
-								<Image
-									width={100}
-									height={50}
-									src="/imgs/logo.png"
-									alt="Product image"
-								/>
-								<h5>salam men almayam</h5>
-							</td>
-							<td className="desktop-col">Product Name</td>
-							<td>15.90 AZN</td>
-							<td className="amount-col">
-								{productAmount == "1" ? (
-									<IoTrashOutline />
-								) : (
-									<button
-										className="amount-basket"
-										onClick={() => changeAmount(-1)}
-									>
-										-
-									</button>
-								)}
-
-								{productAmount}
-								<button
-									className="amount-basket"
-									onClick={() => changeAmount(+1)}
-								>
-									+
-								</button>
-							</td>
-							<td>15.90 AZN</td>
-						</tr>
+											
 						<tr>
 							<td>
 								<Image width={200} height={100} src='/imgs/logo.png' alt="Product image" />
@@ -135,7 +105,7 @@ function Page() {
 						</tr>
 					</tbody>
 				</table>
-			)}
+			)} */}
 		</main>
 	);
 }

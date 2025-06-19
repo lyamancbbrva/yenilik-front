@@ -23,9 +23,7 @@ export const toggleSidebar = () => {
 
    const {data} = undefined || await allcategories()
   
-   if(!data || data.length === 0) {
-    return notFound("Kateqoriya")
-   }
+
    
    return (
     <header>
@@ -51,11 +49,11 @@ export const toggleSidebar = () => {
           </div>
         </div>
       </nav>
-      <div className="categories">
+      {
+        data?.length > 0 ? <div className="categories">
         <div className="container">
 					<ul className="main-ul">
-						{data &&
-							data.map((item, i) => (
+						{data?.map((item, i) => (
 								<li key={i}>
 									{item.name}
 									<ul className="sub-cat-ul">
@@ -73,7 +71,9 @@ export const toggleSidebar = () => {
             }
 					</ul>
         </div>
-      </div>
+      </div> : <div className="category-not-found">Kateqoriya tapılmadı</div>
+      }
+      
       <div id="sidebar" style={{ display: 'none' }}>
         <Sidebar />
       </div>

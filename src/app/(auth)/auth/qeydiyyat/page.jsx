@@ -56,6 +56,9 @@ function RegisterPage() {
 				toast.error("İstifadəçi artıq mövcuddur.");
 				return;
 			} 
+			else{
+				return toast.error("Serverdə xəta baş verdi, yenidən yoxlayın");
+			}
 		} catch (error) {
 			toast.error("Xəta baş verdi");
 			return error;

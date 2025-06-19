@@ -4,8 +4,18 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import Card from "./Card";
 import Image from "next/image";
+import { allProducts } from "@/app/api/api";
+import { useEffect, useState } from "react";
 
 function Sliders() {
+	const [data, setData] = useState([])
+	useEffect(() => {
+		allProducts().then((res) => {
+			setData(res.data.data)
+		})
+
+	}, [])
+
 	return (
 		<>
 			<div className="adds">
@@ -22,7 +32,6 @@ function Sliders() {
 					modules={[Pagination, Autoplay]}
 					className="mySwiper"
 				>
-					{/* <SwiperSlide><img src={slider1} alt="yenilik market" /></SwiperSlide> */}
 					<SwiperSlide>
 						<Image
 							width={1000}
@@ -47,27 +56,19 @@ function Sliders() {
 					modules={[Pagination, Autoplay]}
 					className="discounted-products"
 				>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
-					<SwiperSlide>
-						<Card />
-					</SwiperSlide>
+					{
+						data ? data.map((item, index) => (
+							<SwiperSlide key={index}>
+								<Card
+									id={item.id}
+									name={item.name}
+									price={item.price}
+									image={item.img_url}
+									discountedPrice={item.discountedPrice}
+								/>
+							</SwiperSlide>
+						)) : null
+					}
 				</Swiper>
 			</div>
 		</>

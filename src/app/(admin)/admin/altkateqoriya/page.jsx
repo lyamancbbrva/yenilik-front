@@ -23,15 +23,15 @@ function Page() {
 			document.body.style.background = "#f0f0f0";
 		}
 		allcategories().then((resp) => setCategories(resp.data));
-		setSubcats(categories.filter((item) => item.name === catName)[0]?.subcategories)
+		setSubcats(categories?.filter((item) => item.name === catName)[0]?.subcategories)
 	}, [openAddModal, openDeleteModal, openEditModal]);
 
 
 	function handleAddSubcategory() {
 		try {
-			const catId = categories.filter((item) => item.name === catName)[0]?.id;
+			const catId = categories?.filter((item) => item.name === catName)[0]?.id;
 
-			if (subcatName.trim().length === 0) {
+			if (subcatName?.trim().length === 0) {
 				return toast.error("Alt kateqoriya adı boş ola bilməz!");
 			}
 			if (!catId) {
@@ -44,7 +44,7 @@ function Page() {
 			createSubcat(obj).then((resp) =>
 			{
 				if (resp.status !== 201) {
-					setSubcats(subcats.filter((item) => item.id !== resp.data.id));
+					setSubcats(subcats?.filter((item) => item.id !== resp.data.id));
 					return toast.error("Alt kateqoriya əlavə edilə bilmədi!");
 				}
 				return toast.success("Alt kateqoriya əlavə edildi!");

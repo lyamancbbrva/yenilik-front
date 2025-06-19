@@ -93,6 +93,15 @@ async function deleteSubcat(id) {
         return error
     }
 }
+async function allProducts() {
+        try {
+        const res = await axiosInstance.get(`/product`)
+        return res;
+        
+    } catch (error) {
+        return error
+    }
+}
 
 
 export{
@@ -105,5 +114,6 @@ export{
     editCategory,
     createSubcat,
     editSubcat,
-    deleteSubcat
+    deleteSubcat,
+    allProducts
 }

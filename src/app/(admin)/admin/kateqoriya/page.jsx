@@ -37,12 +37,11 @@ function page() {
 		const obj = {
 			name,
 		};
-		if (name.trim().length == 0) {
+		if (name?.trim().length == 0) {
 			return toast.error("Kateqoriya adı boş ola bilməz!");
 		}
 		try {
 			createCategory(obj).then((res) =>{
-				console.log(res)
 				if (res.status !== 201) {
 					return toast.error("Kateqoriya əlavə edilərkən xəta baş verdi!");
 				}
@@ -120,7 +119,7 @@ function page() {
 						Əlavə et +
 					</button>
 				</form>
-				{data.length > 0 ? (
+				{data?.length > 0 ? (
 					<div className="admin-tables">
 						<table>
 							<thead>
