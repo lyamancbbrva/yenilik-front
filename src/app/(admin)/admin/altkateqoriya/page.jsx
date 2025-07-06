@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
-import { allcategories, createSubcat, deleteSubcat, editSubcat } from "@/app/api/api";
+import {
+	allcategories,
+	createSubcat,
+	deleteSubcat,
+	editSubcat,
+} from "@/app/api/api";
 import { toast, ToastContainer } from "react-toastify";
 
 function Page() {
@@ -23,14 +28,18 @@ function Page() {
 			document.body.style.background = "#f0f0f0";
 		}
 		allcategories().then((resp) => setCategories(resp.data));
-		setSubcats(categories?.filter((item) => item.name === catName)[0]?.subcategories)
-	}, [openAddModal, openDeleteModal, openEditModal]);
+		setSubcats(
+			categories.filter((item) => item.name === catName)[0]
+				?.subcategories || []
+		);
+		console.log(categories);
+	}, [catName, openAddModal, openDeleteModal, openEditModal, categories]);
 
-	console.log(categories);
+
 	function handleAddSubcategory() {
 		try {
-			const catId = categories?.filter((item) => item.name === catName)[0]?.id;
-
+			const catId = categories?.filter((item) => item.name === catName)[0]
+				?.id;
 			if (subcatName?.trim().length === 0) {
 				return toast.error("Alt kateqoriya adı boş ola bilməz!");
 			}
@@ -41,14 +50,14 @@ function Page() {
 				name: subcatName,
 				category_id: catId,
 			};
-			createSubcat(obj).then((resp) =>
-			{
+			createSubcat(obj).then((resp) => {
 				if (resp.status !== 201) {
-					setSubcats(subcats?.filter((item) => item.id !== resp.data.id));
+					setSubcats(
+						subcats?.filter((item) => item.id !== resp.data.id)
+					);
 					return toast.error("Alt kateqoriya əlavə edilə bilmədi!");
 				}
 				return toast.success("Alt kateqoriya əlavə edildi!");
-
 			});
 		} catch (error) {
 			return error;
@@ -62,22 +71,20 @@ function Page() {
 			deleteSubcat(id).then((resp) => {
 				if (resp.status !== 200) {
 					return toast.error("Alt kateqoriya silinə bilmədi!");
-				}else{
+				} else {
 					return toast.success("Alt kateqoriya silindi!");
 				}
-			})
-			
+			});
 		} catch (error) {
 			return error;
 		}
 	}
-	function handleEditSubcategory(){
+	function handleEditSubcategory() {
 		try {
 			if (!id) {
 				return toast.error("Alt kateqoriya seçilməyib!");
 			}
-			editSubcat(id).then(resp => console.log(resp))
-			
+			editSubcat(id).then((resp) => console.log(resp));
 		} catch (error) {
 			return error;
 		}
@@ -207,11 +214,15 @@ function Page() {
 							>
 								Xeyr
 							</button>
-							<button 
-							onClick={() => {
-								handleDeleteSubcategory();
-								setOpenDeleteModal(false);
-							}} className="yes">Bəli</button>
+							<button
+								onClick={() => {
+									handleDeleteSubcategory();
+									setOpenDeleteModal(false);
+								}}
+								className="yes"
+							>
+								Bəli
+							</button>
 						</div>
 					</div>
 				) : (
@@ -242,12 +253,15 @@ function Page() {
 						>
 							Xeyr
 						</button>
-						<button 
-						onClick={() => {
-							handleEditSubcategory();
-							setOpenEditModal(false);
-						}}
-						 className="yes">Bəli</button>
+						<button
+							onClick={() => {
+								handleEditSubcategory();
+								setOpenEditModal(false);
+							}}
+							className="yes"
+						>
+							Bəli
+						</button>
 					</div>
 				) : (
 					""

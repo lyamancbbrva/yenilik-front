@@ -20,7 +20,7 @@ async function login(obj) {
 }
 async function allcategories() {
 	try {
-		const res = await axiosInstance.get("/category/");
+		const res = await axiosInstance.get("/category");
 		return res.data;
 	} catch (error) {
 		return error;

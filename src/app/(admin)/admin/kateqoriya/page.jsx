@@ -5,6 +5,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaXmark } from "react-icons/fa6";
 import { allcategories, createCategory, deleteeCategory, editCategory } from "@/app/api/api";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
+import { axiosInstance } from "@/config/axiosIntance";
 
 function page() {
 	const [openAddModal, setOpenAddModal] = useState(false);
@@ -14,7 +16,7 @@ function page() {
 	const [name, setName] = useState("");
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
-
+	
 
 	useEffect(() => {
 		if (openAddModal || openDeleteModal || openEditModal) {

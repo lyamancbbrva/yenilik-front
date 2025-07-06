@@ -11,8 +11,8 @@ function BarIcon() {
 			setData(res);
 		});
 	}, []);
-    console.log(data);
 	function toggleSidebar(arg) {
+		console.log(data);
 		const sidebar = document.querySelector(".sidebar");
 		const main = document.querySelector("main");
         const header = document.querySelector("header");
