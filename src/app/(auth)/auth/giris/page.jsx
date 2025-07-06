@@ -34,19 +34,20 @@ function Page() {
 
 		try {
 			login(data).then((resp) => setResponse(resp))
-			if (response?.response?.status == 401) {
+			console.log(response)
+			if (response?.status == 401) {
 				return toast.error('E-mail və ya şifrə yanlışdır')
+			}
+			if (!response) {
+				return toast.error("Serverdə xəta baş verdi, yenidən yoxlayın");
 			}
 			if (response.status == 200) {
 				 cook.set("token", response.token);
 				 cook.set("refreshToken", response.refresh_token);
-			return toast.success("Giriş olundu");
+				return toast.success("Giriş olundu");
 				// window.location.href = "/";
 			}
-			else{
-			return	toast.error("Serverdə xəta baş verdi, yenidən yoxlayın");
 				
-			}
 		} catch (error) {
 			return toast.error(error);
 		}

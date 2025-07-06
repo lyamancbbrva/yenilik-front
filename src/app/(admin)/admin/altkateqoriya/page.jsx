@@ -26,7 +26,7 @@ function Page() {
 		setSubcats(categories?.filter((item) => item.name === catName)[0]?.subcategories)
 	}, [openAddModal, openDeleteModal, openEditModal]);
 
-
+	console.log(categories);
 	function handleAddSubcategory() {
 		try {
 			const catId = categories?.filter((item) => item.name === catName)[0]?.id;

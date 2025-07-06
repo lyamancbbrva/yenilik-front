@@ -1,84 +1,70 @@
-import { CiUser, CiShoppingBasket, CiSearch } from "react-icons/ci";
-import Sidebar from "./Sidebar";
-import Link from 'next/link';
-import BarIcon from './BarIcon';
-import Logo from './Logo';
-import axios from "axios";
+import { CiUser } from "react-icons/ci";
+import Link from "next/link";
+import Logo from "./Logo";
+import Search from "./Search";
+import BasketIcon from "./BasketIcon";
 import { allcategories } from "@/app/api/api";
-import notFound from "@/app/(main)/not-found";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import BarIcon from "./Sidebar";
 
-export const toggleSidebar = () => {
-    const sidebar = document.getElementById('sidebar');
-    const main = document.querySelector('main');
-    if (sidebar.style.display === 'block') {
-      sidebar.style.display = 'none';
-      if (main) main.style.display = 'block';
-    } else {
-      sidebar.style.display = 'block';
-      if (main) main.style.display = 'none';
-    }
-  };
 
- async function Header() {
+async function Header() {
+	const data = await allcategories();
 
-   const {data} = undefined || await allcategories()
-  
-
-   
-   return (
-    <header>
-      <nav className="container">
-        <div className="navbar">
-          <Logo/>
-          <div id="header-icons">
-            <Link href={"/auth/giris"}>
-              <CiUser />
-            </Link>
-            <Link href={"/sebet"}>
-              <CiShoppingBasket />
-            </Link>
-            <div className="search-block">
-              <input
-                type="text"
-                placeholder="Axtar..."
-                className="search-input"
-              />
-              <CiSearch className="search-icon" />
-              <BarIcon/>
-            </div>
-          </div>
-        </div>
-      </nav>
-      {
-        data?.length > 0 ? <div className="categories">
-        <div className="container">
-					<ul className="main-ul">
-						{data?.map((item, i) => (
-								<li key={i}>
-									{item.name}
-									<ul className="sub-cat-ul">
-										{item.subcategories &&
-											item.subcategories.map(
-												(subcat, j) => (
-													<li key={j}>
-														{subcat.name}
+	return (
+		<header>
+			<div className="header">
+				<nav className="container">
+					<div className="navbar">
+						<Logo />
+						<div id="header-icons">
+							<Link href={"/auth/giris"}>
+								<CiUser />
+							</Link>
+							<Link href={"/sebet"} className="count-icon">
+								<BasketIcon />
+							</Link>
+							<Search />
+							<BarIcon/>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div className="cat-flex">
+				{data?.data.length > 0 ? (
+					<ul className="cat-list">
+						{data.data.map((item, i) => (
+							<li key={i} className="cat-list-item">
+								<h5>{item.name}</h5>
+								<MdKeyboardArrowRight />
+								{item.subcategories &&
+									item.subcategories.length > 0 && (
+										<ul className="subcat-list">
+											{item.subcategories.map(
+												(sub, j) => (
+													<li
+														key={j}
+														className="subcat-list-item"
+													>
+														<Link
+															href={`/kateqoriya`}
+														>
+															{sub.name}
+														</Link>
 													</li>
 												)
 											)}
-									</ul>
-								</li>
-							))
-            }
+										</ul>
+									)}
+							</li>
+						))}
 					</ul>
-        </div>
-      </div> : <div className="category-not-found">Kateqoriya tapılmadı</div>
-      }
-      
-      <div id="sidebar" style={{ display: 'none' }}>
-        <Sidebar />
-      </div>
-    </header>
-  )
+				) : (
+					<div className="cat-not-found">Kateqoriya tapılmadı</div>
+				)}
+			</div>
+		</header>
+	);
 }
 
-export default Header
+export default Header;

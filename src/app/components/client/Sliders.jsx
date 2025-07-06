@@ -11,14 +11,14 @@ function Sliders() {
 	const [data, setData] = useState([])
 	useEffect(() => {
 		allProducts().then((res) => {
-			setData(res.data.data)
+			setData(res?.data?.data)
 		})
 
 	}, [])
 
 	return (
 		<>
-			<div className="adds">
+			{/* <div className="adds">
 				<Swiper
 					spaceBetween={30}
 					pagination={{
@@ -41,7 +41,7 @@ function Sliders() {
 						/>
 					</SwiperSlide>
 				</Swiper>
-			</div>
+			</div> */}
 			<div className="discounteds">
 				<Swiper
 					slidesPerView={"auto"}
@@ -57,7 +57,7 @@ function Sliders() {
 					className="discounted-products"
 				>
 					{
-						data ? data.map((item, index) => (
+						data ? data?.map((item, index) => (
 							<SwiperSlide key={index}>
 								<Card
 									id={item.id}
@@ -67,7 +67,7 @@ function Sliders() {
 									discountedPrice={item.discountedPrice}
 								/>
 							</SwiperSlide>
-						)) : null
+						)) : <div className="loader"></div>
 					}
 				</Swiper>
 			</div>

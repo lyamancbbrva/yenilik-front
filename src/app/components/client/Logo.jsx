@@ -6,7 +6,7 @@ function Logo() {
 	return (
 		<Link id="logo" href={"/"}>
 			<Image
-				width={80}
+				width={120}
 				height={50}
 				priority
 				src="/imgs/logo.png"

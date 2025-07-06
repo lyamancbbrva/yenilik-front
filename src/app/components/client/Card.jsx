@@ -15,7 +15,8 @@ function Card({ id, name, price, image }) {
 		} else {
 			basket.push({ id, name, price, image, quantity: count });
 		}
-		cook.set("basket", JSON.stringify(basket), { path: "/" });
+		  cook.set("basket", JSON.stringify(basket), { path: "/", maxAge: 7 * 24 * 60 * 60 });
+		  
 	}
 
 	function changeQuantity(e,id, change) {

@@ -31,11 +31,12 @@ export default function AdminLayout({ children }) {
 	}, [pathname]);
 
 	useEffect(() => {
-	if (pathname.startsWith("/admin") && authRole === "false") {
-	return	window.location.href = "/giris";
-	}
 	if (pathname.startsWith("/admin") && authRole === 401) {
-	return	window.location.href = "/giris";
+	return	window.location.href = "/auth/giris";
+	}
+	console.log(authRole)
+	if (pathname.startsWith("/admin") && authRole === 403) {
+	return	window.location.href = "/auth/giris";
 	}
 }, [authRole, pathname]);
 

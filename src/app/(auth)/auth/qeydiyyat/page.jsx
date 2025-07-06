@@ -49,7 +49,7 @@ function RegisterPage() {
 		try {
 			const resp = await register(obj);
 			if (resp.status === 201) {
-				toast.success("Qeydiyyat uğurla tamamlandı");
+			return	toast.success("Qeydiyyat uğurla tamamlandı");
 				// window.location.href = "/";
 			}
 			if (resp.status === 409) {

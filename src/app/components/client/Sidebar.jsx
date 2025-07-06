@@ -1,41 +1,79 @@
 "use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
-import { Panel, PanelGroup } from "rsuite";
-import "rsuite/dist/rsuite.min.css";
-import { toggleSidebar } from "./Header";
 import { allcategories } from "@/app/api/api";
+import React, { useEffect, useState } from "react";
+import { HiBars3CenterLeft } from "react-icons/hi2";
+import { HiOutlineXMark } from "react-icons/hi2";
 
-function Sidebar({  }) {
-	const [activeKey, setActiveKey] = useState(null);
-	const [data, setData] = useState([])
-
+function BarIcon() {
+	const [data, setData] = useState([]);
 	useEffect(() => {
-		allcategories().then(resp => setData(resp.data))
-
-	}, [])
-
+		allcategories().then((res) => {
+			setData(res);
+		});
+	}, []);
+    console.log(data);
+	function toggleSidebar(arg) {
+		const sidebar = document.querySelector(".sidebar");
+		const main = document.querySelector("main");
+        const header = document.querySelector("header");
+		const footer = document.querySelector("footer");
+		console.log(sidebar);
+		if (arg) {
+            sidebar.classList.add("active");
+            main.classList.add("hidden");
+            footer.classList.add("hidden");
+            header.classList.add("hidden");
+        }else{
+            sidebar.classList.remove("active");
+            main.classList.remove("hidden");
+            footer.classList.remove("hidden");
+        }
+	}
 	return (
-		<div id="sidebar">
-			<IoCloseOutline onClick={() => toggleSidebar()} />
-			<div className="accordion">
-				{
-					data && data.map((item ,i) =><PanelGroup
-					key={i}
-					accordion
-					activeKey={activeKey}
-					onSelect={setActiveKey}
-				>
-					<Panel header={item.name} eventKey={i}>
-						<Link href="/salam">{item.subcategories.length > 0 ? item.subcategories.map(subcat => subcat.name) : ''}</Link>
-					</Panel>
-				</PanelGroup> )
-				}
-				
+		<>
+			<div onClick={() => toggleSidebar(true)}>
+				<HiBars3CenterLeft />
 			</div>
-		</div>
+			<div className="sidebar">
+				<HiOutlineXMark onClick={() => toggleSidebar(false)} />
+				<div className="cat-flex">
+					{data?.data?.length > 0 ? (
+						<ul className="cat-list">
+							{data?.data?.map((item, i) => (
+								<li key={i} className="cat-list-item">
+									<h5>{item.name}</h5>
+									<MdKeyboardArrowRight />
+									{item.subcategories &&
+										item.subcategories.length > 0 && (
+											<ul className="subcat-list">
+												{item.subcategories.map(
+													(sub, j) => (
+														<li
+															key={j}
+															className="subcat-list-item"
+														>
+															<Link
+																href={`/kateqoriya`}
+															>
+																{sub.name}
+															</Link>
+														</li>
+													)
+												)}
+											</ul>
+										)}
+								</li>
+							))}
+						</ul>
+					) : (
+						<div className="cat-not-found">
+							Kateqoriya tapılmadı
+						</div>
+					)}
+				</div>
+			</div>
+		</>
 	);
 }
 
-export default Sidebar;
+export default BarIcon;
